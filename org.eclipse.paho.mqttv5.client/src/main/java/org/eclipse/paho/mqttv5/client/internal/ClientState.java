@@ -614,12 +614,12 @@ public class ClientState implements MqttState {
 			message.setMessageId(getNextMessageId());
 			key = getSendBufferedPersistenceKey(message);
 			try {
-				persistence.put(key, (MqttPublish) message);
+				persistence.put(key, (MqttPersistable) message);
 			} catch (MqttPersistenceException mpe) {
 				// @TRACE 515=Could not Persist, attempting to Re-Open Persistence Store
 				log.fine(CLASS_NAME, methodName, "515");
 				persistence.open(this.clientComms.getClient().getClientId());
-				persistence.put(key, (MqttPublish) message);
+				persistence.put(key, (MqttPersistable) message);
 			}
 			// @TRACE 513=Persisted Buffered Message key={0}
 			log.fine(CLASS_NAME, methodName, "513", new Object[] { key });
